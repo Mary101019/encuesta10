@@ -3,193 +3,529 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta Sitios Turísticos</title>
-    <!-- Carga de Bootstrap 5 desde CDN -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
+    <title>Encuesta de Sitios Turísticos - Ecuador Vibrant</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts (Poppins & Outfit) -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Contenedor principal centrado -->
-    <div class="container my-4" style="max-width: 700px;">
-        
-        <!-- Tarjeta simple para dar un aspecto limpio al formulario -->
-        <div class="card shadow-sm p-4 rounded-3 bg-white">
-            <h1 class="h3 text-center mb-4 text-primary">Encuesta de Sitios Turísticos</h1>
+    <style>
+        :root {
+            /* Palette Colors */
+            --gradient-primary: linear-gradient(135deg, #059669 0%, #0284c7 50%, #d97706 100%);
+            --gradient-header: linear-gradient(135deg, #0d9488 0%, #16a34a 50%, #eab308 100%);
+            --gradient-btn: linear-gradient(135deg, #10b981 0%, #06b6d4 50%, #f59e0b 100%);
             
-            <form action="/action_page.php" method="POST">
-                
-                <!-- Pregunta 1 -->
-                <div class="mb-3">
-                    <label for="name" class="form-label fw-bold">1. Nombres:</label>
-                    <input type="text" id="name" name="name" class="form-control" placeholder="Ingrese sus nombres">
+            --glass-bg: rgba(255, 255, 255, 0.94);
+            --glass-border: rgba(255, 255, 255, 0.8);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #1e293b;
+            /* Quilotoa, Cotopaxi & Illinizas landscape background */
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.5) 0%, rgba(15, 23, 42, 0.65) 100%), 
+                        url('input_file_0.png') no-repeat center center fixed;
+            background-size: cover;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, .heading-font {
+            font-family: 'Outfit', sans-serif;
+        }
+
+        /* Glassmorphism Container Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border: 2px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+        }
+
+        /* Top Header Badge */
+        .badge-tag-vibrant {
+            background: linear-gradient(135deg, #ecfdf5 0%, #fef3c7 100%);
+            color: #047857;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid #a7f3d0;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+        }
+
+        .header-title-vibrant {
+            background: var(--gradient-header);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        /* Section Header Dividers */
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-top: 2rem;
+            margin-bottom: 1.25rem;
+            padding-bottom: 8px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(to right, #10b981, #06b6d4, #f59e0b, transparent) 1;
+        }
+
+        .section-header-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #0f172a;
+            margin: 0;
+        }
+
+        /* Color-Coded Number Badges for Questions */
+        .q-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: white;
+            margin-right: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .qb-blue { background: linear-gradient(135deg, #0284c7, #0ea5e9); }
+        .qb-teal { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+        .qb-purple { background: linear-gradient(135deg, #7c3aed, #8b5cf6); }
+        .qb-amber { background: linear-gradient(135deg, #d97706, #f59e0b); }
+        .qb-rose { background: linear-gradient(135deg, #e11d48, #f43f5e); }
+
+        /* Form Inputs Styling */
+        .form-control, .form-select {
+            border-radius: 14px;
+            padding: 0.8rem 1rem;
+            border: 2px solid #e2e8f0;
+            background-color: #ffffff;
+            transition: all 0.25s ease-in-out;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.2);
+            background-color: #fff;
+        }
+
+        .form-floating > label {
+            padding-left: 1rem;
+            color: #64748b;
+        }
+
+        /* Custom Option Cards */
+        .vibrant-card-option {
+            border: 2px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 12px 16px;
+            background: #ffffff;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            height: 100%;
+        }
+
+        .vibrant-card-option:hover {
+            border-color: #10b981;
+            background: #f0fdf4;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.12);
+        }
+
+        .vibrant-card-option:has(.form-check-input:checked) {
+            border-color: #10b981;
+            background: linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%);
+            box-shadow: 0 8px 18px rgba(16, 185, 129, 0.18);
+        }
+
+        .form-check-input {
+            width: 1.2em;
+            height: 1.2em;
+            cursor: pointer;
+        }
+
+        .form-check-input:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+
+        /* Vibrant Submit Button */
+        .btn-gradient-vibrant {
+            background: var(--gradient-btn);
+            background-size: 200% auto;
+            border: none;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.15rem;
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(16, 185, 129, 0.35);
+            transition: all 0.4s ease;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-gradient-vibrant:hover {
+            background-position: right center;
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 16px 32px rgba(16, 185, 129, 0.45);
+            color: #ffffff;
+        }
+
+        .btn-gradient-vibrant:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="py-4 py-md-5">
+
+    <div class="container" style="max-width: 840px;">
+        
+        <!-- Tarjeta Principal con Estilo Glassmorphism -->
+        <div class="card glass-card p-4 p-md-5">
+            
+            <!-- Encabezado Principal -->
+            <div class="text-center mb-4">
+                <div class="badge-tag-vibrant mb-2">
+                    <span class="fw-bold">Avenida de los Volcanes • Ecuador</span>
+                </div>
+                <h1 class="header-title-vibrant display-5 mb-2">Encuesta Sitios Turísticos</h1>
+                <p class="text-secondary fs-6 max-w-lg mx-auto">
+                    Explora y evalúa tus experiencias en la <strong style="color:#059669;">Laguna del Quilotoa</strong>, el <strong style="color:#d97706;">Volcán Cotopaxi</strong> y <strong style="color:#0284c7;">Los Ilinizas</strong>.
+                </p>
+            </div>
+
+            <form id="surveyForm" onsubmit="handleSubmit(event)">
+
+                <!-- SECCIÓN 1: INFORMACIÓN PERSONAL -->
+                <div class="section-header">
+                    <h2 class="section-header-title">Información Personal</h2>
                 </div>
 
-                <!-- Pregunta 2 -->
-                <div class="mb-3">
-                    <label for="apellido" class="form-label fw-bold">2. Apellido:</label>
-                    <input type="text" id="apellido" name="apellido" class="form-control" placeholder="Ingrese su apellido">
-                </div>
-
-                <!-- Pregunta 3 -->
-                <div class="mb-3">
-                    <label for="direccion" class="form-label fw-bold">3. Dirección:</label>
-                    <textarea id="direccion" name="direccion" class="form-control" rows="2" placeholder="Ingrese su dirección"></textarea>
-                </div>
-
-                <!-- Pregunta 4 -->
-                <div class="mb-3">
-                    <label for="telefono" class="form-label fw-bold">4. Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" class="form-control" placeholder="Ej. 0991234567">
-                </div>
-
-                <!-- Pregunta 5 -->
-                <div class="mb-3">
-                    <label for="email" class="form-label fw-bold">5. Email de contacto:</label>
-                    <input type="email" id="email" name="email" class="form-control" placeholder="correo@ejemplo.com">
-                </div>
-
-                <!-- Pregunta 6 -->
-                <div class="mb-3">
-                    <label for="fecha" class="form-label fw-bold">6. Fecha que deseas ir:</label>
-                    <input type="date" id="fecha" name="fecha" class="form-control">
-                </div>
-
-                <!-- Pregunta 7 -->
-                <div class="mb-3">
-                    <label for="tipo" class="form-label fw-bold">7. ¿A dónde quieres ir?</label>
-                    <select id="tipo" name="tipo" class="form-select">
-                        <option value="" selected disabled>Seleccione una opción</option>
-                        <option value="volcan">Volcán</option>
-                        <option value="laguna">Laguna</option>
-                        <option value="parque">Parque</option>
-                        <option value="museo">Museo</option>
-                        <option value="bosque">Bosque</option>
-                    </select>
-                </div>
-
-                <!-- Pregunta 8 -->
-                <div class="mb-3">
-                    <label class="form-label fw-bold">8. ¿Va acompañado?</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="acompanado" id="si" value="Sí">
-                        <label class="form-check-label" for="si">Sí</label>
+                <div class="row g-3 mb-3">
+                    <!-- 1. Nombres -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="name" name="name" placeholder="Nombres" required>
+                            <label for="name">
+                                <span class="q-badge qb-blue">1</span>
+                                <strong>Nombres:</strong>
+                            </label>
+                        </div>
                     </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="radio" name="acompanado" id="no" value="No">
-                        <label class="form-check-label" for="no">No</label>
+                    <!-- 2. Apellido -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido" required>
+                            <label for="apellido">
+                                <span class="q-badge qb-blue">2</span>
+                                <strong>Apellido:</strong>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Pregunta 9 -->
-                <div class="mb-3">
-                    <label for="tiempo" class="form-label fw-bold">9. ¿Cuánto tiempo planea permanecer en el lugar?</label>
-                    <select id="tiempo" name="tiempo" class="form-select">
-                        <option value="" selected disabled>Seleccione el tiempo</option>
+                <!-- 3. Dirección -->
+                <div class="form-floating mb-3">
+                    <textarea class="form-control" id="direccion" name="direccion" placeholder="Dirección" style="height: 85px;"></textarea>
+                    <label for="direccion">
+                        <span class="q-badge qb-blue">3</span>
+                        <strong>Dirección:</strong>
+                    </label>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <!-- 4. Teléfono -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="tel" class="form-control" id="telefono" name="telefono" placeholder="Teléfono">
+                            <label for="telefono">
+                                <span class="q-badge qb-blue">4</span>
+                                <strong>Teléfono:</strong>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 5. Email -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Email para contacto" required>
+                            <label for="email">
+                                <span class="q-badge qb-blue">5</span>
+                                <strong>Email para contacto:</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 2: PLANIFICACIÓN Y DESTINO -->
+                <div class="section-header">
+                    <h2 class="section-header-title">Planificación del Viaje</h2>
+                </div>
+
+                <div class="row g-3 mb-3">
+                    <!-- 6. Fecha -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <input type="date" class="form-control" id="fecha" name="fecha">
+                            <label for="fecha">
+                                <span class="q-badge qb-teal">6</span>
+                                <strong>Fecha que deseas ir:</strong>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- 7. Destino -->
+                    <div class="col-md-6">
+                        <div class="form-floating">
+                            <select class="form-select" id="tipo" name="tipo">
+                                <option value="" selected disabled>Seleccione un destino</option>
+                                <option value="volcan">Volcán (Cotopaxi / Ilinizas)</option>
+                                <option value="laguna">Laguna (Quilotoa)</option>
+                                <option value="parque">Parque Nacional</option>
+                                <option value="museo">Museo / Centro Cultural</option>
+                                <option value="bosque">Bosque Protector</option>
+                            </select>
+                            <label for="tipo">
+                                <span class="q-badge qb-teal">7</span>
+                                <strong>¿A dónde quieres ir?</strong>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Acompañado -->
+                <div class="mb-4">
+                    <label class="form-label d-flex align-items-center mb-2">
+                        <span class="q-badge qb-teal">8</span>
+                        <strong class="fs-6">¿Va acompañado?</strong>
+                    </label>
+                    <div class="row g-2">
+                        <div class="col-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="radio" name="acompanado" id="radioSi" value="Sí">
+                                <label class="form-check-label w-100 mb-0 fw-semibold" for="radioSi">Sí</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="radio" name="acompanado" id="radioNo" value="No">
+                                <label class="form-check-label w-100 mb-0 fw-semibold" for="radioNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Tiempo de permanencia -->
+                <div class="form-floating mb-4">
+                    <select class="form-select" id="tiempo" name="tiempo">
+                        <option value="" selected disabled>Seleccione la duración estimada</option>
                         <option value="a">Menos de 2 horas</option>
                         <option value="b">Entre 2 y 4 horas</option>
                         <option value="c">Todo el día</option>
                         <option value="d">2 días y 1 noche</option>
                         <option value="e">Más tiempo</option>
                     </select>
+                    <label for="tiempo">
+                        <span class="q-badge qb-teal">9</span>
+                        <strong>¿Cuánto tiempo planea permanecer en el lugar?</strong>
+                    </label>
                 </div>
 
-                <!-- Pregunta 10 -->
-                <div class="mb-3">
-                    <label class="form-label fw-bold">10. Servicios requeridos:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="srv-restaurante" name="servicios[]" value="Restaurante">
-                        <label class="form-check-label" for="srv-restaurante">Restaurante</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="srv-guias" name="servicios[]" value="Guias">
-                        <label class="form-check-label" for="srv-guias">Guías</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="srv-hospedaje" name="servicios[]" value="Hospedaje">
-                        <label class="form-check-label" for="srv-hospedaje">Hospedaje</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="srv-transporte" name="servicios[]" value="Transporte">
-                        <label class="form-check-label" for="srv-transporte">Transporte</label>
-                    </div>
+                <!-- SECCIÓN 3: SERVICIOS Y ACTIVIDADES -->
+                <div class="section-header">
+                    <h2 class="section-header-title">Servicios y Actividades</h2>
                 </div>
 
-                <!-- Pregunta 11 -->
-                <div class="mb-3">
-                    <label class="form-label fw-bold">11. Actividades adicionales que deseas hacer:</label>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="act-senderismo" name="actividad[]" value="Senderismo">
-                        <label class="form-check-label" for="act-senderismo">Senderismo</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="act-camping" name="actividad[]" value="Camping">
-                        <label class="form-check-label" for="act-camping">Camping</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="act-running" name="actividad[]" value="Running">
-                        <label class="form-check-label" for="act-running">Running</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="act-ciclismo" name="actividad[]" value="Ciclismo">
-                        <label class="form-check-label" for="act-ciclismo">Ciclismo</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="act-fotografia" name="actividad[]" value="Fotografia">
-                        <label class="form-check-label" for="act-fotografia">Fotografía</label>
-                    </div>
-                </div>
-
-                <!-- Pregunta 12 -->
-                <div class="mb-3">
-                    <label for="presupuesto" class="form-label fw-bold">12. Presupuesto aproximado (USD):</label>
-                    <input type="number" id="presupuesto" name="presupuesto" class="form-control" step="10" placeholder="Ej. 50">
-                </div>
-
-                <!-- Pregunta 13 -->
-                <div class="mb-3">
-                    <label class="form-label fw-bold">13. ¿Qué tipo de equipamiento o indumentaria especial trajiste para la visita?</label>
-                    <div class="form-text text-muted mb-2">(Puedes marcar varias opciones)</div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-ropa" name="equipamiento[]" value="ropa_termica">
-                        <label class="form-check-label" for="eq-ropa">Ropa térmica / Chaqueta impermeable</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-calzado" name="equipamiento[]" value="calzado_montana">
-                        <label class="form-check-label" for="eq-calzado">Calzado de montaña o trekking</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-sol" name="equipamiento[]" value="proteccion_solar">
-                        <label class="form-check-label" for="eq-sol">Protección solar (gafas, bloqueador, sombrero)</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-bastones" name="equipamiento[]" value="bastones">
-                        <label class="form-check-label" for="eq-bastones">Bastones de senderismo</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-agua" name="equipamiento[]" value="agua_alimentos">
-                        <label class="form-check-label" for="eq-agua">Agua y alimentos de alto contenido energético</label>
-                    </div>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="eq-ninguno" name="equipamiento[]" value="ninguno">
-                        <label class="form-check-label" for="eq-ninguno">Ninguno / Vine con ropa casual urbana</label>
-                    </div>
-                </div>
-
-                <!-- Pregunta 14 -->
+                <!-- 10. Servicios requeridos -->
                 <div class="mb-4">
-                    <label for="sugerencias" class="form-label fw-bold">14. Sugerencias:</label>
-                    <p class="form-text text-muted mb-2">Agregue alguna actividad adicional que quiera hacer u otro comentario.</p>
-                    <textarea id="sugerencias" name="message" class="form-control" rows="3" placeholder="Escriba sus sugerencias aquí..."></textarea>
+                    <label class="form-label d-flex align-items-center mb-2">
+                        <span class="q-badge qb-purple">10</span>
+                        <strong class="fs-6">Servicios disponibles:</strong>
+                    </label>
+                    <div class="row g-2">
+                        <div class="col-sm-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="srv-restaurante" name="servicios[]" value="Restaurante">
+                                <label class="form-check-label mb-0 fw-semibold" for="srv-restaurante">Restaurante</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="srv-guias" name="servicios[]" value="Guias">
+                                <label class="form-check-label mb-0 fw-semibold" for="srv-guias">Guías</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="srv-hospedaje" name="servicios[]" value="Hospedaje">
+                                <label class="form-check-label mb-0 fw-semibold" for="srv-hospedaje">Hospedaje</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="srv-transporte" name="servicios[]" value="Transporte">
+                                <label class="form-check-label mb-0 fw-semibold" for="srv-transporte">Transporte</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 11. Actividades adicionales -->
+                <div class="mb-4">
+                    <label class="form-label d-flex align-items-center mb-2">
+                        <span class="q-badge qb-purple">11</span>
+                        <strong class="fs-6">Actividades adicionales que deseas hacer:</strong>
+                    </label>
+                    <div class="row g-2">
+                        <div class="col-sm-6 col-md-4">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="act-senderismo" name="actividad[]" value="Senderismo">
+                                <label class="form-check-label mb-0 fw-semibold" for="act-senderismo">Senderismo</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="act-camping" name="actividad[]" value="Camping">
+                                <label class="form-check-label mb-0 fw-semibold" for="act-camping">Camping</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-4">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="act-running" name="actividad[]" value="Running">
+                                <label class="form-check-label mb-0 fw-semibold" for="act-running">Running</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="act-ciclismo" name="actividad[]" value="Ciclismo">
+                                <label class="form-check-label mb-0 fw-semibold" for="act-ciclismo">Ciclismo</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6">
+                            <div class="vibrant-card-option">
+                                <input class="form-check-input my-0" type="checkbox" id="act-fotografia" name="actividad[]" value="Fotografia">
+                                <label class="form-check-label mb-0 fw-semibold" for="act-fotografia">Fotografía</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 12. Presupuesto -->
+                <div class="mb-4">
+                    <label for="presupuesto" class="form-label d-flex align-items-center mb-2">
+                        <span class="q-badge qb-amber">12</span>
+                        <strong class="fs-6">Presupuesto aproximado (USD):</strong>
+                    </label>
+                    <div class="input-group">
+                        <span class="input-group-text bg-warning-subtle border-end-0 fw-bold" style="color:#d97706;">$</span>
+                        <input type="number" class="form-control border-start-0" id="presupuesto" name="presupuesto" step="10" placeholder="Ejemplo: 50">
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 4: EQUIPAMIENTO Y SUGERENCIAS -->
+                <div class="section-header">
+                    <h2 class="section-header-title">Equipamiento y Sugerencias</h2>
+                </div>
+
+                <!-- 13. Equipamiento -->
+                <div class="mb-4">
+                    <label class="form-label d-flex align-items-center mb-1">
+                        <span class="q-badge qb-rose">13</span>
+                        <strong class="fs-6">¿Qué tipo de equipamiento o indumentaria especial trajiste para la visita?</strong>
+                    </label>
+                    <span class="text-muted small d-block mb-3 ms-4">(Puedes marcar varias opciones)</span>
+                    
+                    <div class="d-flex flex-column gap-2">
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-ropa" name="equipamiento[]" value="ropa_termica">
+                            <label class="form-check-label mb-0 fw-semibold" for="eq-ropa">Ropa térmica / Chaqueta impermeable</label>
+                        </div>
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-calzado" name="equipamiento[]" value="calzado_montana">
+                            <label class="form-check-label mb-0 fw-semibold" for="eq-calzado">Calzado de montaña o trekking</label>
+                        </div>
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-sol" name="equipamiento[]" value="proteccion_solar">
+                            <label class="form-check-label mb-0 fw-semibold" for="eq-sol">Protección solar (gafas, bloqueador, sombrero)</label>
+                        </div>
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-bastones" name="equipamiento[]" value="bastones">
+                            <label class="form-check-label mb-0 fw-semibold" for="eq-bastones">Bastones de senderismo</label>
+                        </div>
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-agua" name="equipamiento[]" value="agua_alimentos">
+                            <label class="form-check-label mb-0 fw-semibold" for="eq-agua">Agua y alimentos de alto contenido energético</label>
+                        </div>
+                        <div class="vibrant-card-option">
+                            <input class="form-check-input my-0" type="checkbox" id="eq-ninguno" name="equipamiento[]" value="ninguno">
+                            <label class="form-check-label mb-0 fw-semibold text-secondary" for="eq-ninguno">Ninguno / Vine con ropa casual urbana</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 14. Sugerencias -->
+                <div class="mb-4">
+                    <label for="sugerencias" class="form-label d-flex align-items-center mb-1">
+                        <span class="q-badge qb-rose">14</span>
+                        <strong class="fs-6">Sugerencias:</strong>
+                    </label>
+                    <span class="text-muted small d-block mb-2 ms-4">Agregue alguna actividad adicional que quiera hacer u otro comentario.</span>
+                    <textarea class="form-control" id="sugerencias" name="message" rows="3" placeholder="Escriba aquí sus sugerencias..."></textarea>
                 </div>
 
                 <!-- Botón de Envío -->
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-lg">Enviar Encuesta</button>
+                <div class="d-grid mt-4 pt-2">
+                    <button type="submit" class="btn btn-gradient-vibrant btn-lg">
+                        Enviar Encuesta
+                    </button>
                 </div>
 
             </form>
         </div>
     </div>
+
+    <!-- Modal de Confirmación -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content text-center p-4 rounded-4 border-0 shadow-lg">
+                <div class="modal-body">
+                    <h3 class="fw-bold mb-2 heading-font" style="color: #0f172a;">¡Gracias por tu apoyo!</h3>
+                    <p class="text-secondary mb-4">Tus opiniones fortalecen el turismo sostenible en la Avenida de los Volcanes de Ecuador.</p>
+                    <button type="button" class="btn btn-gradient-vibrant px-5 py-2 fs-6" data-bs-dismiss="modal">Aceptar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        function handleSubmit(e) {
+            e.preventDefault();
+            var myModal = new bootstrap.Modal(document.getElementById('successModal'));
+            myModal.show();
+        }
+    </script>
 
 </body>
 </html>
